@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "685458031989",
+    "firebase_url": "https://cryptodegree-59efe.firebaseio.com",
+    "project_id": "cryptodegree-59efe",
+    "storage_bucket": "cryptodegree-59efe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:685458031989:android:83bceee133e7deabc5bf3c",
+        "android_client_info": {
+          "package_name": "com.goodbarber.cryptodegree"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "685458031989-i97ktmdldd5mq92iqjip2v28koacnoih.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiAERMDph-K2_-iqhjBhtqGgHbXmatUh4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "685458031989-i97ktmdldd5mq92iqjip2v28koacnoih.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
