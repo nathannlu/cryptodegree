@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, StyleSheet, ScrollView, AsyncStorage} from 'react-native';
 import Course from '../components/Course';
 import Button from '../components/Button';
 
 const Courses = props => {
+  const [completedCourses, setCompletedCourses] = useState([])
+
   const handleOverviewNavigation = title => {
     props.navigation.push('Overview', {
       courseTitle: title,
@@ -14,12 +16,28 @@ const Courses = props => {
     props.navigation.push('Graduated')
   }
 
+  const retrieveCompletedCourses = async () => {
+    try {
+      const value = await AsyncStorage.getItem('CompletedCourses');
+      if (value !== null) {
+        setCompletedCourses(JSON.parse(value));
+      }
+    } catch (error) {
+      console.warn(error);
+    }
+  };
+
+  useEffect(()=> {
+    retrieveCompletedCourses();
+  })
+
   const courses = ['Crypto 101', 'Security', 'Exchanges', 'Investing'];
 
   return (
     <ScrollView style={styles.container}>
       <View style={styles.card}>
         <Text style={styles.h2}>Get Certificate</Text>
+  <Text>{completedCourses.length} courses completed</Text>
         <Text>3 more courses before graduation</Text>
         <View style={{marginTop: 85}}>
           <Button title="Get your degree" onPress={() => handleGraduation()} />

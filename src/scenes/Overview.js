@@ -7,7 +7,6 @@ import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 
 const Overview = props => {
   const course = props.navigation.getParam('courseTitle');
-  const [completedCourse, setCompletedCourse] = useState(false)
   const lessons = [
     {title: 'What is Bitcoin', id: 1},
     {title: 'What are Cryptocurrencies?', id: 2},
@@ -25,16 +24,6 @@ const Overview = props => {
 
   const [completedLessons, setCompletedLessons] = useState([])
 
-  const markSuccessful = () => {
-    completedCourses.forEach(course => {
-      if (course === 3 ) {
-        return 'completed'
-      } else {
-        return 'bruh';
-      }
-    })
-  }
-
   const handleLessonNavigation = (title, id) => {
     props.navigation.push('Lesson', {
       lessonTitle: title,
@@ -44,7 +33,9 @@ const Overview = props => {
   };
 
   const handleCourseCompletion = title => {
-    if (completedLessons.length === lessons.length) {
+    if (completedLessons.length === completedLessons.length) {
+      // Save to async storage
+      setCompletedCourses();
       props.navigation.push('Completed', {
         courseTitle: title,
       });
@@ -53,7 +44,7 @@ const Overview = props => {
     }
   };
 
-  const retrieveData = async () => {
+  const retrieveCompletedLessons = async () => {
     try {
       const value = await AsyncStorage.getItem(`CompletedLessons:${course}`);
       if (value !== null) {
@@ -63,6 +54,28 @@ const Overview = props => {
       console.log(error);
     }
   };
+
+  const setCompletedCourses = async () => {
+    try {
+      const completedCourses = await AsyncStorage.getItem('CompletedCourses');
+      let newCompletedCourses;
+
+      if (completedCourses !== null) {
+        newCompletedCourses = JSON.parse(completedCourses);
+        
+        if(!newCompletedCourses.includes(course)) {
+          newCompletedCourses.push(course);
+        }
+      } else {
+        newCompletedCourses = [course];
+      }
+
+      await AsyncStorage.setItem('CompletedCourses', JSON.stringify(newCompletedCourses))
+      
+    } catch (error) {
+      console.warn(error);
+    }
+  }
 
   const removeItem = async () => {
     try {
@@ -74,7 +87,7 @@ const Overview = props => {
   };
 
   useEffect(() => {
-    retrieveData();
+    retrieveCompletedLessons();
     if(completedLessons.length === lessons.length) {
       setCompletedCourse(true);
     }
