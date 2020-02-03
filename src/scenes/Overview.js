@@ -7,7 +7,7 @@ import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 
 const Overview = props => {
   const course = props.navigation.getParam('courseTitle');
-  let completedLessons = [];
+  const [completedCourse, setCompletedCourse] = useState(false)
   const lessons = [
     {title: 'What is Bitcoin', id: 1},
     {title: 'What are Cryptocurrencies?', id: 2},
@@ -22,6 +22,18 @@ const Overview = props => {
     {title: '13 Crypto YOutubers You Must Subscribe to', id: 11},
     {title: '12 Popular Crypto Tools and Resources to Use Every Day', id: 12},
   ];
+
+  const [completedLessons, setCompletedLessons] = useState([])
+
+  const markSuccessful = () => {
+    completedCourses.forEach(course => {
+      if (course === 3 ) {
+        return 'completed'
+      } else {
+        return 'bruh';
+      }
+    })
+  }
 
   const handleLessonNavigation = (title, id) => {
     props.navigation.push('Lesson', {
@@ -43,9 +55,9 @@ const Overview = props => {
 
   const retrieveData = async () => {
     try {
-      const value = await AsyncStorage.getItem(`CompletedCourses:${course}`);
+      const value = await AsyncStorage.getItem(`CompletedLessons:${course}`);
       if (value !== null) {
-        console.warn('completed courses:', value);
+        setCompletedLessons(JSON.parse(value));
       }
     } catch (error) {
       console.log(error);
@@ -54,7 +66,7 @@ const Overview = props => {
 
   const removeItem = async () => {
     try {
-      await AsyncStorage.removeItem(`CompletedCourses:${course}`);
+      await AsyncStorage.removeItem(`CompletedLessons:${course}`);
       return true;
     } catch (exception) {
       return false;
@@ -63,6 +75,9 @@ const Overview = props => {
 
   useEffect(() => {
     retrieveData();
+    if(completedLessons.length === lessons.length) {
+      setCompletedCourse(true);
+    }
   });
 
   return (
@@ -86,8 +101,9 @@ const Overview = props => {
               title={lesson.title}
               handleLessonNavigation={handleLessonNavigation}
               course={course}
-              id={lesson.id}
+              id={i}
               key={i}
+              completedLessons={completedLessons}
             />
           ))}
         </View>

@@ -1,11 +1,25 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableHighlight} from 'react-native';
 
 const LessonPreview = props => {
+  const [completed, setCompleted] = useState(false);
+  
+  useEffect(()=>{
+    props.completedLessons.forEach(lesson => {
+      if(lesson === props.id) setCompleted(true);
+    })
+  })
+
+
   return (
     <TouchableHighlight onPress={()=>props.handleLessonNavigation(props.title, props.id)} underlayColor="black">
       <View style={styles.lessonWrapper}>
-        <View style={styles.circle}></View>
+        <View style={styles.circle}>
+          <Text>
+            {completed ? 'completed': ''}
+          </Text>
+          
+        </View>
         <Text numberOfLines={2} style={styles.lessonTitle}>
           {props.title}
         </Text>

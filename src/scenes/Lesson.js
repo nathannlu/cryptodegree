@@ -12,22 +12,20 @@ const Lesson = props => {
 
   const storeData = async () => {
     try {
-      const completedCourses = await AsyncStorage.getItem(`CompletedCourses:${course}`);
-      let newCompletedCourses;
+      const completedLessons = await AsyncStorage.getItem(`CompletedLessons:${course}`);
+      let newCompletedLessons;
 
-      if (completedCourses !== null) {
-        newCompletedCourses = JSON.parse(completedCourses);
+      if (completedLessons !== null) {
+        newCompletedLessons = JSON.parse(completedLessons);
         
-        if(!newCompletedCourses.includes(_id)) {
-          newCompletedCourses.push(_id);
+        if(!newCompletedLessons.includes(_id)) {
+          newCompletedLessons.push(_id);
         }
       } else {
-        newCompletedCourses = [_id];
+        newCompletedLessons = [_id];
       }
-
-      console.warn('stored', newCompletedCourses)
       // update async storage
-      await AsyncStorage.setItem(`CompletedCourses:${course}`, JSON.stringify(newCompletedCourses))
+      await AsyncStorage.setItem(`CompletedLessons:${course}`, JSON.stringify(newCompletedLessons))
       
     } catch (error) {
       console.warn(error);
