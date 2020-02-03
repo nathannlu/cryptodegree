@@ -51,7 +51,7 @@ const Overview = props => {
         setCompletedLessons(JSON.parse(value));
       }
     } catch (error) {
-      console.log(error);
+      console.log('retrieveCompeletedLessons Error:', error);
     }
   };
 

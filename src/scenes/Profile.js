@@ -5,6 +5,7 @@ import Button from '../components/Button';
 
 import * as RNIap from 'react-native-iap';
 import { requestPurchase } from 'react-native-iap';
+import useGlobalState from '../hooks/useGlobalState';
 
 const itemSkus = Platform.select({
   ios: [
@@ -16,7 +17,10 @@ const itemSkus = Platform.select({
 });
 
 const Profile = () => {
-  const [hi, setHi] = useState({})
+  const globalState = useGlobalState();
+  const premiumStatus = globalState.premium;
+
+
   const requestPurchase = async (sku) => {
     try {
       await RNIap.requestPurchase(sku, false);
@@ -30,7 +34,6 @@ const Profile = () => {
       try {
         const result = await RNIap.initConnection();
         const products = await RNIap.getProducts(itemSkus);
-        setHi(products);
         // console.warn('result', result);
       } catch (err) {
         console.warn(err.code, err.message);
@@ -45,15 +48,12 @@ const Profile = () => {
         <Text style={styles.h2}>Upgrade your account</Text>
         <Text>Get Crypto Degree Premium to remove all ads</Text>
         <View style={{marginTop: 125}}>
-          <Button title="Go Pro" onPress={()=>requestPurchase(hi.productId)} />
+          <Button title="Go Pro" onPress={()=>globalState.setPremium(true)} />
         </View>
       </View>
-
-      <View style={{marginTop: 20, paddingHorizontal: 20}}>
         <Text>
-          {JSON.stringify(hi)}
+          {premiumStatus === true ? 'true' : 'false'}
         </Text>
-      </View>
     </View>
   );
 };

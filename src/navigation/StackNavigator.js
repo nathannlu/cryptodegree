@@ -4,6 +4,10 @@ import { createStackNavigator } from 'react-navigation-stack';
 import Home from '../scenes/Home'
 
 import Discover from '../scenes/Discover'
+import ViewAll from '../scenes/ViewAll'
+import Browser from '../scenes/Browser'
+
+
 import Profile from '../scenes/Profile'
 
 import Courses from '../scenes/Courses'
@@ -14,11 +18,6 @@ import Graduated from '../scenes/Graduated'
 
 export const HomeStack = createStackNavigator({
   Home: Home,
-  //Overview: CourseOverviewStack,
-})
-
-const CourseOverviewStack = createStackNavigator({
-  Overview: Overview
 })
 
 export const CoursesStack = createStackNavigator({ 
@@ -31,20 +30,15 @@ export const CoursesStack = createStackNavigator({
 
 CoursesStack.navigationOptions = ({navigation}) => {
   let tabBarVisible = true;
+  if (navigation.state.index > 0) tabBarVisible = false;
 
-  if (navigation.state.index > 0) {
-    tabBarVisible = false;
-  }
-
-  return {
-    tabBarVisible,
-  };
+  return tabBarVisible
 }
 
 export const DiscoverStack = createStackNavigator({
   Discover: Discover,
-  //ViewAll: ViewAllScreen,
-  //Browser: Browser
+  ViewAll: ViewAll,
+  Browser: Browser
 },
 {
   defaultNavigationOptions: {

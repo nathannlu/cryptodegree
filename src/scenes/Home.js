@@ -1,11 +1,15 @@
 import React from 'react';
 import { Text, StyleSheet, View } from 'react-native'
+import useGlobalState from '../hooks/useGlobalState';
 
 const Home = () => {
+  const globalState = useGlobalState();
+  const premiumStatus = globalState.premium;
+
   return (
     <View>
       <Text style={{fontSize: 20, marginLeft: 15}}>
-        Home
+        {premiumStatus === true ? 'true' : 'false'}
       </Text>
     </View>
   )

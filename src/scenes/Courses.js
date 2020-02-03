@@ -28,13 +28,13 @@ const Courses = props => {
         setCompletedCourses(JSON.parse(value));
       }
     } catch (error) {
-      console.warn(error);
+      console.warn('retrieveCompletedCourses Error:', error);
     }
   };
 
   useEffect(()=> {
     retrieveCompletedCourses();
-  })
+  }, [])
 
   const courses = ['Crypto 101', 'Security', 'Exchanges', 'Investing'];
 
@@ -57,7 +57,7 @@ const Courses = props => {
 
         <View>
           <Text style={{fontWeight: 'bold', fontSize: 16, paddingVertical: 10}}>
-            Courses
+            Categories
           </Text>
 
           <View style={styles.coursesContainer}>
@@ -83,7 +83,7 @@ const Header = props => {
 
       <View style={{paddingTop: 20}}>
         <Text style={styles.h3}>{props.completedCourses.length}/4 Courses Complete</Text>
-        <View style={styles.progressBar}>
+        <View style={[styles.progressBar, {width: `${props.completedCourses/4}%`}]}>
           <View style={styles.progress}></View>
         </View>
       </View>
@@ -126,7 +126,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   progress: {
-    width: 130,
     height: '100%',
     backgroundColor: '#1D1D1D',
     borderRadius: 100,

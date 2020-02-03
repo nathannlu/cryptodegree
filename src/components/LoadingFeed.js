@@ -1,24 +1,23 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import Shimmer from './Shimmer'
 
 const LoadingFeed = () => {
   return (
     <View style={styles.loadingWrapper}>
-      <Shimmer style={styles.loadingTextLarge}></Shimmer>
-      <Shimmer style={styles.loadingTextSmall}></Shimmer>
+      <View style={styles.loadingTextLarge}></View>
+      <View style={styles.loadingTextSmall}></View>
 
       <View style={styles.postContainer}>
-        <Shimmer autoRun={true} visible={true} style={styles.loadingBox}></Shimmer>
-        <Shimmer autoRun={true} visible={true} style={styles.loadingText}></Shimmer>
+        <View style={styles.loadingBox}></View>
+        <View style={styles.loadingText}></View>
 
         <View style={styles.sourceContainer}>
-          <Shimmer autoRun={true} visible={true} style={styles.loadingAvatar}></Shimmer>
-          <Shimmer autoRun={true} visible={true} style={styles.loadingTextSmall}></Shimmer>
+          <View style={styles.loadingAvatar}></View>
+          <View style={styles.loadingTextSmall}></View>
         </View>
       </View>
 
-      <Shimmer style={styles.loadingButton}></Shimmer>      
+      <View style={styles.loadingButton}></View>      
     </View>
   );
 };
