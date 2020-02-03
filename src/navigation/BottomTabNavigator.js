@@ -22,13 +22,13 @@ const bottomTabNavigator = createMaterialBottomTabNavigator(
         const {routeName} = navigation.state;
         switch (routeName) {
           case 'Home':
-            return <Icon name="ios-home" color={tintColor} size={25} />;
+            return <Icon name="ios-home" color={tintColor} size={27} />;
           case 'Courses':
-            return <Icon name="ios-folder-open" color={tintColor} size={25} />;
+            return <Icon name="ios-folder-open" color={tintColor} size={27} />;
           case 'Discover':
-            return <Icon name="ios-compass" color={tintColor} size={25} />;
+            return <Icon name="ios-compass" color={tintColor} size={27} />;
           case 'Profile':
-            return <Icon name="ios-settings" color={tintColor} size={25} />;
+            return <Icon name="ios-settings" color={tintColor} size={27} />;
         }
       },
     }),
