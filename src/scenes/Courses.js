@@ -13,7 +13,12 @@ const Courses = props => {
   };
 
   const handleGraduation = () => {
-    props.navigation.push('Graduated')
+    if(completedCourses.length === courses.length) {
+      props.navigation.push('Graduated')
+    } else {
+      // alert x more courses to go
+    }
+    
   }
 
   const retrieveCompletedCourses = async () => {
@@ -34,42 +39,50 @@ const Courses = props => {
   const courses = ['Crypto 101', 'Security', 'Exchanges', 'Investing'];
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.card}>
-        <Text style={styles.h2}>Get Certificate</Text>
-  <Text>{completedCourses.length} courses completed</Text>
-        <Text>3 more courses before graduation</Text>
-        <View style={{marginTop: 85}}>
-          <Button title="Get your degree" onPress={() => handleGraduation()} />
+    <View style={{flex: 1}}>
+      <Header completedCourses={completedCourses} />
+      
+      <ScrollView style={styles.container}>
+        <View style={styles.card}>
+          <Text style={styles.h2}>Get Certificate</Text>
+          {completedCourses.length === 4 ? (
+            <Text>You can graduate.</Text>
+          ) : (
+            <Text>{4 - completedCourses.length} more courses before graduation</Text>          
+          )}
+          <View style={{marginTop: 85}}>
+            <Button title="Get your degree" onPress={() => handleGraduation()} />
+          </View>
         </View>
-      </View>
 
-      <View>
-        <Text style={{fontWeight: 'bold', fontSize: 16, paddingVertical: 10}}>
-          Courses
-        </Text>
+        <View>
+          <Text style={{fontWeight: 'bold', fontSize: 16, paddingVertical: 10}}>
+            Courses
+          </Text>
 
-        <View style={styles.coursesContainer}>
-          {courses.map((course, i) => (
-            <Course
-              title={course}
-              handleOverviewNavigation={handleOverviewNavigation}
-              key={i}
-            />
-          ))}
+          <View style={styles.coursesContainer}>
+            {courses.map((course, i) => (
+              <Course
+                title={course}
+                handleOverviewNavigation={handleOverviewNavigation}
+                key={i}
+              />
+            ))}
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>      
+    </View>
+
   );
 };
 
-const Header = () => {
+const Header = props => {
   return (
     <View style={styles.headerContainer}>
       <Text style={styles.headerTitle}>Courses</Text>
 
       <View style={{paddingTop: 20}}>
-        <Text style={styles.h3}>1/4 Courses Complete</Text>
+        <Text style={styles.h3}>{props.completedCourses.length}/4 Courses Complete</Text>
         <View style={styles.progressBar}>
           <View style={styles.progress}></View>
         </View>
@@ -79,7 +92,8 @@ const Header = () => {
 };
 
 Courses.navigationOptions = () => ({
-  header: () => <Header />,
+  // header: <Header />
+  headerShown: false
 });
 
 const styles = StyleSheet.create({
