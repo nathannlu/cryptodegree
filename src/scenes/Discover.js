@@ -1,5 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, ScrollView, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import axios from 'react-native-axios';
 
 import LoadingFeed from '../components/LoadingFeed';
@@ -16,6 +22,14 @@ const Discover = props => {
   const handleWebviewNavigation = link => {
     props.navigation.push('Browser', {
       link: link,
+    });
+  };
+
+  const handleViewAllNavigation = (title, articles) => {
+    props.navigation.push('ViewAll', {
+      title: title,
+      articles: articles,
+      handleWebviewNavigation: handleWebviewNavigation,
     });
   };
 
@@ -48,9 +62,14 @@ const Discover = props => {
       ) : (
         <ScrollView style={{paddingTop: 20}} scrollEventThrottle={16}>
           <View style={{flex: 1}}>
-            <View style={styles.container}>
-              <Text style={styles.h1}>Trending</Text>
-              <Text style={styles.h3}>Popular & Breaking News</Text>
+            <View style={[styles.container, styles.titleWrapper]}>
+              <View>
+                <Text style={styles.h1}>Trending</Text>
+                <Text style={styles.h3}>Popular & Breaking News</Text>
+              </View>
+              <TouchableWithoutFeedback onPress={() => handleViewAllNavigation('Trending', trending)}>
+                <Text style={{paddingBottom: 15}}>See All</Text>
+              </TouchableWithoutFeedback>
             </View>
 
             <NewsFeed
@@ -61,15 +80,21 @@ const Discover = props => {
             <View style={styles.container}>
               <Button
                 title="View all"
-                onPress={() => {
-                  props.navigation.navigate('ViewAll');
-                }}
+                onPress={() => handleViewAllNavigation('Trending', trending)}
               />
             </View>
 
-            <View style={[styles.container, {paddingTop: 40}]}>
-              <Text style={styles.h1}>Latest News</Text>
-              <Text style={styles.h3}>Based on most relevant</Text>
+            <View
+              style={[styles.container, {paddingTop: 40, paddingBottom: 20}]}>
+              <View style={styles.titleWrapper}>
+                <View>
+                  <Text style={styles.h1}>Latest News</Text>
+                  <Text style={styles.h3}>Based on most relevant</Text>
+                </View>
+                <TouchableWithoutFeedback onPress={() => handleViewAllNavigation('Latest News', news)}>
+                  <Text style={{paddingBottom: 15}}>See All</Text>
+                </TouchableWithoutFeedback>
+              </View>
               {news.map((post, i) => (
                 <View key={i}>
                   <PostSmall
@@ -109,6 +134,13 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  titleWrapper: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   container: {
     paddingHorizontal: 20,
