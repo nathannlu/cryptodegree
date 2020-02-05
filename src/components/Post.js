@@ -7,25 +7,28 @@ import {
   StyleSheet,
 } from 'react-native';
 
-const Blog = props => {
+const Post = props => {
   return (
-    <View>
-      <View style={styles.postContainer}>
-        <View style={styles.imageContainer}>
-          <Image style={styles.image} source={{uri: props.imageUri}} />
-        </View>
+    <View style={styles.postContainer}>
+      <TouchableWithoutFeedback
+        onPress={() => props.handleWebviewNavigation(props.link)}
+        style={{height: '100%'}}>
+          <View>
+            <View style={styles.imageContainer}>
+              <Image style={styles.image} source={{uri: props.imageUri}} />
+            </View>
 
-        <Text numberOfLines={2} style={styles.postTitle}>
-          {props.title}
-        </Text>
+            <View>
+              <Text numberOfLines={2} style={styles.postTitle}>
+                {props.title}
+              </Text>
 
-        <Text style={styles.postSource}>By Cryptodegree</Text>
-      </View>      
-    {/* 
-    <TouchableWithoutFeedback onPress={() => props.handleWebviewNavigation(props.link)}>
+              <Text style={styles.postSource}>By Cryptodegree</Text>                       
+            </View>
+   
+          </View>
 
-    </TouchableWithoutFeedback>
-    */}
+      </TouchableWithoutFeedback>
     </View>
   );
 };
@@ -42,7 +45,7 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   imageContainer: {
-    height: '75%',
+    height: 187.5,
     width: '100%',
     borderRadius: 10,
     marginBottom: 20,
@@ -61,4 +64,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Blog;
+export default Post;

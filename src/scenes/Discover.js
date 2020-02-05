@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, ScrollView, StyleSheet} from 'react-native';
-import axios from "react-native-axios";
+import axios from 'react-native-axios';
 
 import LoadingFeed from '../components/LoadingFeed';
 
-import NewsFeed from '../components/NewsFeed'; /*
-import SmallBox from "../components/SmallBox";*/
+import NewsFeed from '../components/NewsFeed';
+import PostSmall from '../components/PostSmall';
 import Button from '../components/Button';
 
 const Discover = props => {
@@ -25,7 +25,6 @@ const Discover = props => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    
     axios
       .get(NEWS_API_URL)
       .then(response => {
@@ -41,13 +40,13 @@ const Discover = props => {
   }, []);
 
   return (
-    <View style={{paddingTop: 20}}>
+    <View>
       {isLoading ? (
-        <View style={styles.container}>
+        <View style={[styles.container, {paddingTop: 20}]}>
           <LoadingFeed />
         </View>
       ) : (
-        <ScrollView scrollEventThrottle={16}>
+        <ScrollView style={{paddingTop: 20}} scrollEventThrottle={16}>
           <View style={{flex: 1}}>
             <View style={styles.container}>
               <Text style={styles.h1}>Trending</Text>
@@ -65,21 +64,20 @@ const Discover = props => {
                 onPress={() => {
                   props.navigation.navigate('ViewAll');
                 }}
-              />              
+              />
             </View>
 
-
-            <View style={{paddingTop: 20}}>
+            <View style={[styles.container, {paddingTop: 40}]}>
+              <Text style={styles.h1}>Latest News</Text>
+              <Text style={styles.h3}>Based on most relevant</Text>
               {news.map((post, i) => (
                 <View key={i}>
-                  {/* 
-                        <SmallBox
-                          title={post.title}
-                          link={post.source}
-                          imageUri={post.thumbnail}
-                          handleWebviewNavigation={handleWebviewNavigation}
-                        />
-                        */}
+                  <PostSmall
+                    title={post.title}
+                    link={post.source}
+                    imageUri={post.thumbnail}
+                    handleWebviewNavigation={handleWebviewNavigation}
+                  />
                 </View>
               ))}
             </View>
@@ -113,7 +111,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   container: {
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   h1: {
     fontSize: 24,

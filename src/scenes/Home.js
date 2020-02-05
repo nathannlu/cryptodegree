@@ -9,12 +9,15 @@ const Home = () => {
 
   useEffect(()=>{
     // Check IAP if subscription exists
-    //globalState.setPremium({premium: true});
+    globalState.setPremium({premium: true});
   }, [])
 
   return (
     <View>
-      <BannerAd />
+      <Text>
+        {premiumStatus.premium === true ? '' : <BannerAd />}
+      </Text>
+      
       <Text style={{fontSize: 20, marginLeft: 15}}>
         {premiumStatus.premium === true ? 'true' : 'false'}
       </Text>
