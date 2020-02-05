@@ -48,11 +48,11 @@ const Profile = () => {
         <Text style={styles.h2}>Upgrade your account</Text>
         <Text>Get Crypto Degree Premium to remove all ads</Text>
         <View style={{marginTop: 125}}>
-          <Button title="Go Pro" onPress={()=>globalState.setPremium(true)} />
+          <Button title="Go Pro" onPress={()=>globalState.setPremium({premium:true})} />
         </View>
       </View>
         <Text>
-          {premiumStatus === true ? 'true' : 'false'}
+          {premiumStatus.premium === true ? 'true' : 'false'}
         </Text>
     </View>
   );

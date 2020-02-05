@@ -6,7 +6,14 @@ const SET_PREMIUM = 'SET_PREMIUM';
 const GlobalStateContext = createContext();
 
 const initialState = {
-  premium: false
+  premium: false,
+  coursesCompleted: [],
+  lessonsCompleted: {
+    'Crypto 101': [],
+    'Security': [],
+    'Exchanges': [],
+    'Investing': []
+  }
 }
 
 const globalStateReducer = (state, action) => {
@@ -14,7 +21,7 @@ const globalStateReducer = (state, action) => {
     case SET_PREMIUM:
       return {
         ...state,
-        premium: action.payload,
+        premium: {...action.payload},
       };
 
     default:
@@ -42,16 +49,20 @@ This also allows us to keep all of this state logic in this one file
 const useGlobalState = () => {
   const [state, dispatch] = useContext(GlobalStateContext);
 
-  const setPremium = (bool) => {
+  const setPremium = ({premium, coursesCompleted, lessonsCompleted}) => {
     dispatch({
       type: SET_PREMIUM,
-      payload: bool
+      payload: {
+        premium,
+        coursesCompleted,
+        lessonsCompleted
+      }
     });
   };
 
   return {
     setPremium,
-    premium: state.premium,
+    premium: {...state.premium},
   }
 }
 

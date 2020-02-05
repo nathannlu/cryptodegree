@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, StyleSheet, View } from 'react-native'
+import BannerAd from '../components/BannerAd';
 import useGlobalState from '../hooks/useGlobalState';
 
 const Home = () => {
   const globalState = useGlobalState();
   const premiumStatus = globalState.premium;
 
+  useEffect(()=>{
+    // Check IAP if subscription exists
+    //globalState.setPremium({premium: true});
+  }, [])
+
   return (
     <View>
+      <BannerAd />
       <Text style={{fontSize: 20, marginLeft: 15}}>
-        {premiumStatus === true ? 'true' : 'false'}
+        {premiumStatus.premium === true ? 'true' : 'false'}
       </Text>
     </View>
   )

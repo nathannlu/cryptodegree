@@ -1,24 +1,22 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
+import SvgAnimatedLinearGradient from 'react-native-svg-animated-linear-gradient';
+import Svg, {Circle, Rect} from 'react-native-svg';
 
 const LoadingFeed = () => {
   return (
-    <View style={styles.loadingWrapper}>
-      <View style={styles.loadingTextLarge}></View>
-      <View style={styles.loadingTextSmall}></View>
+    <SvgAnimatedLinearGradient height={500} width={'100%'} x2="100%" y2="100%">
+      <Rect x="0" y="0" rx="2" ry="2" width="150" height="20" />
+      <Rect x="0" y="30" rx="2" ry="2" width="100" height="15" />
 
-      <View style={styles.postContainer}>
-        <View style={styles.loadingBox}></View>
-        <View style={styles.loadingText}></View>
+      <Rect x="0" y="60" rx="5" ry="5" width="270" height="187.5" />
 
-        <View style={styles.sourceContainer}>
-          <View style={styles.loadingAvatar}></View>
-          <View style={styles.loadingTextSmall}></View>
-        </View>
-      </View>
+      <Rect x="0" y="267.5" rx="2" ry="2" width="270" height="20" />
+      <Circle cx="12.5" cy="310" r="12.5" />
+      <Rect x="35" y="303.75" rx="2" ry="2" width="100" height="15" />
 
-      <View style={styles.loadingButton}></View>      
-    </View>
+      <Rect x="0" y="370" rx="25" ry="25" width="100%" height="45" />
+    </SvgAnimatedLinearGradient>
   );
 };
 
@@ -71,7 +69,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#E8E8E8',
     marginTop: 60,
     borderRadius: 100,
-  }
+  },
 });
 
 export default LoadingFeed;

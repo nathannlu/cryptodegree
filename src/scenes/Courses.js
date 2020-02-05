@@ -83,8 +83,8 @@ const Header = props => {
 
       <View style={{paddingTop: 20}}>
         <Text style={styles.h3}>{props.completedCourses.length}/4 Courses Complete</Text>
-        <View style={[styles.progressBar, {width: `${props.completedCourses/4}%`}]}>
-          <View style={styles.progress}></View>
+        <View style={styles.progressBar}>
+          <View style={[styles.progress, {width: `${(props.completedCourses.length/4)*100}%`}]}></View>
         </View>
       </View>
     </View>
