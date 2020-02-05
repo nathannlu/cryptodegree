@@ -27,32 +27,32 @@ export const CoursesStack = createStackNavigator({
   Completed: Completed,
   Graduated: Graduated
 })
-
 CoursesStack.navigationOptions = ({navigation}) => {
-  let tabBarVisible = true;
-  if (navigation.state.index > 0) tabBarVisible = false;
+  let tabBarVisible;
+  navigation.state.index > 0 ? tabBarVisible = false : tabBarVisible = true;
 
-  return tabBarVisible
+  return {
+    tabBarVisible
+  };
 }
 
 export const DiscoverStack = createStackNavigator({
   Discover: Discover,
   ViewAll: ViewAll,
   Browser: Browser
-},
-{
-  defaultNavigationOptions: {
-    headerStyle: {
-      backgroundColor: 'white',
-    },
-    headerTintColor: 'black',
-    headerTitleStyle: {
-      fontSize: 20,
-      fontWeight: 'bold',
-    },
-  },
 })
+DiscoverStack.navigationOptions = ({navigation}) => {
+  let tabBarVisible;
+  navigation.state.index > 0 ? tabBarVisible = false : tabBarVisible = true;
+
+  return {
+    tabBarVisible
+  };
+}
+
 
 export const ProfileStack = createStackNavigator({
   Profile: Profile
 })
+
+
