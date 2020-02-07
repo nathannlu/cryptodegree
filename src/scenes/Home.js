@@ -9,7 +9,7 @@ const Home = () => {
 
   useEffect(()=>{
     // Check IAP if subscription exists
-    globalState.setPremium({premium: true});
+    globalState.setPremium({premium: true})
   }, [])
 
   return (

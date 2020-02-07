@@ -3,22 +3,22 @@ import {View, Text, StyleSheet, TouchableHighlight} from 'react-native';
 
 const LessonPreview = props => {
   const [completed, setCompleted] = useState(false);
-  
-  useEffect(()=>{
-    props.completedLessons.forEach(lesson => {
-      if(lesson === props.id) setCompleted(true);
-    })
-  })
 
+  useEffect(() => {
+    props.completedLessons.forEach(lesson => {
+      if (lesson === props.id) setCompleted(true);
+    });
+  });
 
   return (
-    <TouchableHighlight onPress={()=>props.handleLessonNavigation(props.title, props.id)} underlayColor="black">
+    <TouchableHighlight
+      onPress={() => {
+        props.handleLessonNavigation(props.title, props.id, props.lesson);
+      }}
+      underlayColor="black">
       <View style={styles.lessonWrapper}>
         <View style={styles.circle}>
-          <Text>
-            {completed ? 'completed': ''}
-          </Text>
-          
+          <Text>{completed ? 'completed' : ''}</Text>
         </View>
         <Text numberOfLines={2} style={styles.lessonTitle}>
           {props.title}
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginVertical: 10,
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   lessonTitle: {
     fontSize: 16,

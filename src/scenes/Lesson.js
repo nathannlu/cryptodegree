@@ -1,11 +1,32 @@
-import React from 'react';
-import {View, Text, ScrollView, Button, AsyncStorage} from 'react-native';
-// import HTML from "react-native-render-html";
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  AsyncStorage,
+  Image,
+  Dimensions,
+} from 'react-native';
+import Button from '../components/Button';
+import HTML from 'react-native-render-html';
 
 const Lesson = props => {
-  const lesson = props.navigation.getParam('lessonTitle');
+  const lessonTitle = props.navigation.getParam('lessonTitle');
   const course = props.navigation.getParam('course');
   const _id = props.navigation.getParam('lessonId');
+  const URL =
+    'https://cryptodegree-api.herokuapp.com/api/lessons/' +
+    encodeURIComponent(course) +
+    '/' +
+    encodeURIComponent(lessonTitle);
+
+  const [lesson, setLesson] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setLesson(props.navigation.getParam('lesson'));
+  }, []);
 
   const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
     return layoutMeasurement.height + contentOffset.y >= contentSize.height - 1;
@@ -32,6 +53,7 @@ const Lesson = props => {
         `CompletedLessons:${course}`,
         JSON.stringify(newCompletedLessons),
       );
+      //globalState.setPremium({ ...premiumStatus, [`CompletedLessons:${course}`]: newCompletedLessons })
     } catch (error) {
       console.warn(error);
     }
@@ -41,20 +63,14 @@ const Lesson = props => {
     <ScrollView
       onScroll={({nativeEvent}) => {
         if (isCloseToBottom(nativeEvent)) {
-          console.warn('Reached end of page');
+          storeData();
         }
       }}>
-      <Text>{lesson}</Text>
-      <Button title="Mark as complete" onPress={() => storeData()} />
-
-      {/* 
       <View>
         <View style={{padding: 20}}>
-          <Text style={{fontSize: 36, color: '#33325C'}}>{lesson.title}</Text>
-          <Text style={{fontSize: 20, paddingVertical: 10}}>
-            {lesson.subtitle}
-          </Text>
-          <Text>Lesson {lesson.index} &bull; 15 min read</Text>
+          <Text style={styles.h1}>{lessonTitle}</Text>
+          <Text style={styles.h3}>{course}</Text>
+          <Text>Lesson {_id + 1} &bull; 15 min read</Text>
         </View>
         <Image source={{uri: lesson.thumbnail}} style={{height: 300}} />
         <View style={{paddingHorizontal: 20, paddingTop: 40}}>
@@ -64,12 +80,27 @@ const Lesson = props => {
             baseFontStyle={{fontSize: 20, lineHeight: 32, color: '#33325C'}}
           />
         </View>
+        <View style={[styles.container, {paddingVertical: 20}]}>
+          <Button title="Complete Lesson" onPress={() => storeData()} />
+        </View>
       </View>
-      */}
     </ScrollView>
   );
 };
 
-Lesson.navigationOptions = () => ({});
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 20,
+  },
+  h1: {
+    fontSize: 36,
+    fontWeight: 'bold',
+  },
+  h3: {
+    fontWeight: 'bold',
+    opacity: 0.25,
+    marginBottom: 20,
+  },
+});
 
 export default Lesson;

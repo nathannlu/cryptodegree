@@ -2,31 +2,40 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, ScrollView, StyleSheet, AsyncStorage} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LessonPreview from '../components/LessonPreview';
+import LoadingLessonPreview from '../components/LoadingLessonPreview';
 import Button from '../components/Button';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
+import axios from "react-native-axios";
 
 const Overview = props => {
   const course = props.navigation.getParam('courseTitle');
-  const lessons = [
-    {title: 'What is Bitcoin', id: 1},
-    {title: 'What are Cryptocurrencies?', id: 2},
-    {title: '13 Crypto YOutubers You Must Subscribe to', id: 3},
-    {title: '12 Popular Crypto Tools and Resources to Use Every Day', id: 4},
-    {title: 'What is Bitcoin', id: 5},
-    {title: 'What are Cryptocurrencies?', id: 6},
-    {title: '13 Crypto Youtubers You Must Subscribe to', id: 7},
-    {title: '12 Popular Crypto Tools and Resources to Use Every Day', id: 8},
-    {title: 'What is Bitcoin', id: 9},
-    {title: 'What are Cryptocurrencies?', id: 10},
-    {title: '13 Crypto YOutubers You Must Subscribe to', id: 11},
-    {title: '12 Popular Crypto Tools and Resources to Use Every Day', id: 12},
-  ];
-
+  const [lessons, setLessons] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [completedLessons, setCompletedLessons] = useState([])
+  const freeLessons = [0,1,2,3,4];
+  const URL =
+  "https://cryptodegree-api.herokuapp.com/api/lessons/" +
+  encodeURIComponent(course);
 
-  const handleLessonNavigation = (title, id) => {
+  useEffect(() => {
+    axios
+      .get(URL)
+      .then(response => {
+        setLessons(response.data);
+      })
+      .then(() => {
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    //analytics.screen("Course overview screen");
+  }, []);
+  
+  const handleLessonNavigation = (title, id, lesson) => {
     props.navigation.push('Lesson', {
       lessonTitle: title,
+      lesson: lesson,
       lessonId: id,
       course,
     });
@@ -35,7 +44,7 @@ const Overview = props => {
   const handleCourseCompletion = title => {
     if (completedLessons.length === completedLessons.length) {
       // Save to async storage
-      setCompletedCourses();
+      // setCompletedCourses();
       props.navigation.push('Completed', {
         courseTitle: title,
       });
@@ -89,7 +98,7 @@ const Overview = props => {
   useEffect(() => {
     retrieveCompletedLessons();
     if(completedLessons.length === lessons.length) {
-      setCompletedCourse(true);
+      //setCompletedCourse(true);
     }
   });
 
@@ -108,18 +117,28 @@ const Overview = props => {
 
           <Text style={styles.h4}>Lessons</Text>
         </View>
-        <View style={{paddingBottom: 30}}>
-          {lessons.map((lesson, i) => (
-            <LessonPreview
-              title={lesson.title}
-              handleLessonNavigation={handleLessonNavigation}
-              course={course}
-              id={i}
-              key={i}
-              completedLessons={completedLessons}
-            />
-          ))}
-        </View>
+        {isLoading ? (
+          <View style={styles.container}>
+            <LoadingLessonPreview />
+          </View>          
+        ) : (
+          <View style={{paddingBottom: 30}}>
+            {lessons.map((lesson, i) => (
+              <LessonPreview
+                title={lesson.title}
+                handleLessonNavigation={handleLessonNavigation}
+                course={course}
+                lesson={lesson}
+                id={i}
+                key={i}
+                locked={!freeLessons.includes(i)}
+                completedLessons={completedLessons}
+              />
+            ))}
+          </View>          
+        )}
+
+
         <View style={styles.container}>
           <Button title="refresh" onPress={() => removeItem()} />
           <Button

@@ -5,7 +5,7 @@ const BannerAd = () => {
   const Banner = firebase.admob.Banner;
   const AdRequest = firebase.admob.AdRequest;
   const request = new AdRequest();
-  request.addKeyword('cryptocurrency');
+  request.addKeyword('cryptocurrency'); 
 
   return (
     <Banner
