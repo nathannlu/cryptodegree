@@ -51,9 +51,6 @@ const Profile = () => {
           <Button title="Go Pro" onPress={()=>globalState.setPremium({premium:true})} />
         </View>
       </View>
-        <Text>
-          {premiumStatus.premium === true ? 'true' : 'false'}
-        </Text>
     </View>
   );
 };
